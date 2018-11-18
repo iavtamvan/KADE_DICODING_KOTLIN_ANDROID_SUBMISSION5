@@ -7,18 +7,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import com.iav.kade.activity.DetailActivity
 import com.iav.kade.model.Item
 import com.iav.kade.R
 import kotlinx.android.synthetic.main.list_last_match.view.*
 
 
-class LastMatchAdapter : RecyclerView.Adapter<LastMatchAdapter.ViewHolder> {
+class LastMatchAdapter : RecyclerView.Adapter<LastMatchAdapter.ViewHolder>, Filterable {
 
     private lateinit var context: Context
     private var items: ArrayList<Item>? = null
     private var orig: ArrayList<Item>? = null
-//    private var recycleFilter: RecycleFilter? = null
+    private var recycleFilter: RecycleFilter? = null
 
     constructor(context: FragmentActivity?, items: ArrayList<Item>) : this() {
         this.context = context!!
@@ -49,39 +51,39 @@ class LastMatchAdapter : RecyclerView.Adapter<LastMatchAdapter.ViewHolder> {
 
     override fun getItemCount(): Int = items?.size as Int
 
-//    override fun getFilter(): Filter {
-//        if (recycleFilter == null) {
-//            recycleFilter = RecycleFilter()
-//        }
-//        return recycleFilter as RecycleFilter
-//    }
+    override fun getFilter(): Filter {
+        if (recycleFilter == null) {
+            recycleFilter = RecycleFilter()
+        }
+        return recycleFilter as RecycleFilter
+    }
 
-//    inner class RecycleFilter : Filter() {
-//        override fun performFiltering(charSequence: CharSequence?): FilterResults {
-//            var results2: FilterResults = FilterResults()
-//            if (charSequence != null && charSequence.length > 0) {
-//                var locallist: ArrayList<Item> = ArrayList<Item>()
-//                for (i: Int in 0..orig?.size?.minus(1) as Int) {
-//                    if (orig?.get(i)?.teamHome?.toLowerCase()?.contains(charSequence.toString().toLowerCase()) as Boolean) {
-//                        locallist.add(orig?.get(i) as Item)
-//                    }
-//                }
-//                results2.values = locallist
-//                results2.count = locallist.size as Int
-//            } else {
-//                results2.values = orig
-//                results2.count = orig?.size as Int
-//            }
-//
-//            return results2
-//        }
-//
-//        override fun publishResults(charSequence: CharSequence, filterResults: FilterResults?) {
-//            items = filterResults?.values as ArrayList<Item>
-//            notifyDataSetChanged()
-//        }
-//
-//    }
+    inner class RecycleFilter : Filter() {
+        override fun performFiltering(charSequence: CharSequence?): FilterResults {
+            var results2: FilterResults = FilterResults()
+            if (charSequence != null && charSequence.length > 0) {
+                var locallist: ArrayList<Item> = ArrayList<Item>()
+                for (i: Int in 0..orig?.size?.minus(1) as Int) {
+                    if (orig?.get(i)?.teamHome?.toLowerCase()?.contains(charSequence.toString().toLowerCase()) as Boolean) {
+                        locallist.add(orig?.get(i) as Item)
+                    }
+                }
+                results2.values = locallist
+                results2.count = locallist.size as Int
+            } else {
+                results2.values = orig
+                results2.count = orig?.size as Int
+            }
+
+            return results2
+        }
+
+        override fun publishResults(charSequence: CharSequence, filterResults: FilterResults?) {
+            items = filterResults?.values as ArrayList<Item>
+            notifyDataSetChanged()
+        }
+
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tanggal = view.tv_tanggal

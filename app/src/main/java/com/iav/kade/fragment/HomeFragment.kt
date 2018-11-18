@@ -14,12 +14,12 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 
 class HomeFragment : Fragment() {
-
+    var adapter: FragmentPagerItemAdapter? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        val adapter = FragmentPagerItemAdapter(
+        adapter = FragmentPagerItemAdapter(
                 activity?.supportFragmentManager, FragmentPagerItems.with(activity)
                 .add("Last Match", LastMatchFragment::class.java)
                 .add("Next Match", NextMatchFragment::class.java)

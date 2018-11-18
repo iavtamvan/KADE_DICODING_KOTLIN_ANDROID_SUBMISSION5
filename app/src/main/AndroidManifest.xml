@@ -16,7 +16,8 @@
         <activity android:name="com.iav.kade.activity.DetailActivity" />
         <activity
             android:name="com.iav.kade.activity.HomeActivity"
-            android:label="@string/title_activity_home">
+            android:label="@string/title_activity_home"
+            android:configChanges="screenSize|orientation|navigation|touchscreen|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

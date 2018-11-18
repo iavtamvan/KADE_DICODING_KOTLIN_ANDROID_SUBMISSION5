@@ -15,9 +15,9 @@ class NextMatchPresenter(private var items: ArrayList<Item> = arrayListOf(),
                          private var rv: RecyclerView,
                          private var mAdapter: NextMatchAdapter) {
 
-    fun getNextMatch() {
+    fun getNextMatch(id:String) {
         val service: ApiService = RetroConfig.provideApi()
-        service.getNextMatch("4328")
+        service.getNextMatch(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ it ->

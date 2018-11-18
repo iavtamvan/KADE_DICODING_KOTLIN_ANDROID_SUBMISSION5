@@ -11,10 +11,19 @@
         android:layout_height="match_parent"
         android:layout_margin="150dp"
         android:id="@+id/progress_circular"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_marginBottom="10dp">
+
+        </Spinner>
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -14,10 +14,10 @@ class LastMatchPresenter(private var items: ArrayList<Item> = arrayListOf(),
                          private val context: FragmentActivity?,
                          private var rv: RecyclerView,
                          private var mAdapter: LastMatchAdapter) {
-    fun getLastMatch() {
+    fun getLastMatch(id:String) {
         val service: ApiService
         service = RetroConfig.provideApi()
-        service.getLastMatch("4328")
+        service.getLastMatch(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ it ->
