@@ -5,13 +5,12 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.iav.kade.fragment.FavoriteFragment
-import com.iav.kade.fragment.LastMatchFragment
-import com.iav.kade.fragment.NextMatchFragment
 import com.iav.kade.R
+import com.iav.kade.fragment.HomeFavoriteFragment
+import com.iav.kade.fragment.MatchFavoriteFragment
 import com.iav.kade.fragment.HomeFragment
+import com.iav.kade.fragment.TeamFragment
 import kotlinx.android.synthetic.main.activity_home.*
-import org.jetbrains.anko.toast
 
 class HomeActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
@@ -20,11 +19,11 @@ class HomeActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.last_match -> {
-                lastMatch(savedInstanceState = null)
+                home(savedInstanceState = null)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.next_match -> {
-                nextMatch(savedInstanceState = null)
+                team(savedInstanceState = null)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.fav -> {
@@ -38,14 +37,23 @@ class HomeActivity : AppCompatActivity() {
     private fun fav(savedInstanceState: Bundle?) {
         if (savedInstanceState == null){
             val transaction = fragmentManager.beginTransaction()
-            val fragment = FavoriteFragment()
+            val fragment = MatchFavoriteFragment()
+            transaction.replace(R.id.frame,fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+    }
+    private fun team(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null){
+            val transaction = fragmentManager.beginTransaction()
+            val fragment = TeamFragment()
             transaction.replace(R.id.frame,fragment)
             transaction.addToBackStack(null)
             transaction.commit()
         }
     }
 
-    private fun lastMatch(savedInstanceState: Bundle?) {
+    private fun home(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             val transaction = fragmentManager.beginTransaction()
             val fragment = HomeFragment()
@@ -53,29 +61,13 @@ class HomeActivity : AppCompatActivity() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
-
-    }
-    private fun nextMatch(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            val transaction = fragmentManager.beginTransaction()
-            val fragment = NextMatchFragment()
-            transaction.replace(R.id.frame,fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        lastMatch(savedInstanceState)
+        home(savedInstanceState)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        lastMatch(savedInstanceState = null)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -91,7 +83,7 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.action_search -> {
 
-               true
+                true
 //                isFavorite = !isFavorite
             }
 

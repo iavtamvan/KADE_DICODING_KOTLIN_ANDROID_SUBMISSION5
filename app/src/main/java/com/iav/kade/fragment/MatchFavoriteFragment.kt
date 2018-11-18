@@ -19,7 +19,7 @@ import org.jetbrains.anko.support.v4.onRefresh
  * A simple [Fragment] subclass.
  *
  */
-class FavoriteFragment : Fragment() {
+class MatchFavoriteFragment : Fragment() {
     private var favorites: ArrayList<Favorite> = arrayListOf()
     private lateinit var adapter: FavoriteAdapter
     private lateinit var rv : RecyclerView
