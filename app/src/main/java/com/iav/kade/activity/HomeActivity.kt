@@ -3,18 +3,22 @@ package com.iav.kade.activity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.iav.kade.R
+import com.iav.kade.R.id.action_search
 import com.iav.kade.fragment.HomeFavoriteFragment
 import com.iav.kade.fragment.MatchFavoriteFragment
 import com.iav.kade.fragment.HomeFragment
 import com.iav.kade.fragment.TeamFragment
 import kotlinx.android.synthetic.main.activity_home.*
+import org.jetbrains.anko.startActivity
 
 class HomeActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     private var menuItem: Menu? = null
+    private lateinit var action_search: SearchView
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -82,7 +86,17 @@ class HomeActivity : AppCompatActivity() {
                 true
             }
             R.id.action_search -> {
+                action_search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        return false
+                    }
 
+                    override fun onQueryTextSubmit(query: String): Boolean {
+//                        startActivity<SearchActivity>("KEY_SEARCH" to query, "TYPE_SEARCH" to mSelectedItemBottomNav)
+                        return false
+                    }
+
+                })
                 true
 //                isFavorite = !isFavorite
             }

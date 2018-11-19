@@ -26,7 +26,8 @@
         <activity android:name=".activity.DetailFavActivity" />
         <activity android:name=".activity.DetailTeamActivity" />
         <activity android:name=".activity.DetailPlayerTeamActivity" />
-        <activity android:name=".activity.DetailTeamFavoriteActivity"></activity>
+        <activity android:name=".activity.DetailTeamFavoriteActivity" />
+        <activity android:name=".activity.SearchActivity"></activity>
     </application>
 
 </manifest>
