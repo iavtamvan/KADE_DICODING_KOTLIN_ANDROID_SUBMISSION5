@@ -1,11 +1,13 @@
 package com.iav.kade.fragment
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 import com.iav.kade.R
 
@@ -13,12 +15,18 @@ import com.iav.kade.R
  * A simple [Fragment] subclass.
  *
  */
-class DetailOverviewTeamFragment : Fragment() {
-
+@SuppressLint("ValidFragment")
+class DetailOverviewTeamFragment(private val deskripsi: String, private val id: String) : Fragment() {
+    private lateinit var tvOverview: TextView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_overview_team, container, false)
+        val view:View =  inflater.inflate(R.layout.fragment_detail_overview_team, container, false)
+
+        tvOverview = view.findViewById<TextView>(R.id.tv_overview)
+
+        tvOverview.text = "" + deskripsi
+        return view
     }
 
 

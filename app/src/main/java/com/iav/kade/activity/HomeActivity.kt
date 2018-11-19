@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
     private fun fav(savedInstanceState: Bundle?) {
         if (savedInstanceState == null){
             val transaction = fragmentManager.beginTransaction()
-            val fragment = MatchFavoriteFragment()
+            val fragment = HomeFavoriteFragment()
             transaction.replace(R.id.frame,fragment)
             transaction.addToBackStack(null)
             transaction.commit()
