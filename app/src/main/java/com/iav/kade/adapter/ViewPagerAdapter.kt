@@ -25,7 +25,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getPageTitle(position: Int): CharSequence? {
         var title: String? = null
         if (position == 0) {
-            title = "Prev"
+            title = "Last"
         } else if (position == 1) {
             title = "Next"
         }

@@ -24,4 +24,9 @@ interface ApiService {
 
     @GET("lookupplayer.php?id=34160896")
     fun detailPlayer(@Query("id") id: String): Observable<ResponseModel>
+
+    @GET("searchevents.php")
+    fun searchEvent(@Query("e") id: String): Observable<ResponseModel>
+    @GET("searchteams.php")
+    fun searchTeam(@Query("t") id: String): Observable<ResponseModel>
 }

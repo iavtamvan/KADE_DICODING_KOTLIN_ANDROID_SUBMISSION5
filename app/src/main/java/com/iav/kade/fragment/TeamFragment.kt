@@ -3,15 +3,16 @@ package com.iav.kade.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SearchView
 import android.widget.Spinner
 import com.iav.kade.R
 import com.iav.kade.adapter.TeamAdapter
+import com.iav.kade.find.SearchTeamPresenter
 import com.iav.kade.fragment.main.TeamPresenter
 import com.iav.kade.model.Item
 
@@ -23,6 +24,10 @@ class TeamFragment : Fragment() {
     private lateinit var spinner :Spinner
     var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga")
     private  var idTeam="4328"
+
+    private lateinit var presenterTeamSearch:SearchTeamPresenter
+    private lateinit var searchView: SearchView
+    var query = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -30,6 +35,7 @@ class TeamFragment : Fragment() {
         spinner = view.findViewById<Spinner>(R.id.spinner)
         rv= view.findViewById(R.id.rv)
         spinnerData()
+        setHasOptionsMenu(true)
         return view
     }
 
@@ -62,7 +68,36 @@ class TeamFragment : Fragment() {
     private fun loadData() {
         adapter= TeamAdapter(activity, items)
         presenter = TeamPresenter(items, activity, rv, adapter)
+        presenterTeamSearch = SearchTeamPresenter(items, activity, rv, adapter)
         presenter.getTeam(idTeam)
+        presenterTeamSearch.eventTeamSearch(query)
     }
 
+
+
+    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+        menuInflater?.inflate(R.menu.menu_search, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+//        searchView.setIconifiedByDefault(false)
+//        searchView.isIconified = false
+        searchView.requestFocusFromTouch()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                if (text?.length!! > 2) {
+//                if (text != null) {
+                    presenterTeamSearch.eventTeamSearch(text)
+                    adapter.notifyDataSetChanged()
+                } else{
+                    loadData()
+                }
+//                }
+                return false
+            }
+        })
+    }
 }

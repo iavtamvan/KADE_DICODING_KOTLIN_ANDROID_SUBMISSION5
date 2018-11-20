@@ -3,19 +3,16 @@ package com.iav.kade.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ProgressBar
-import android.widget.Spinner
+import android.view.*
+import android.widget.*
 import com.example.cia.footballschedule.utils.invisible
 import com.example.cia.footballschedule.utils.visible
 import com.iav.kade.R
 import com.iav.kade.adapter.LastMatchAdapter
+import com.iav.kade.find.SearchLastPresenter
+import com.iav.kade.find.SearchMatchPresenter
 import com.iav.kade.fragment.main.LastMatchPresenter
 import com.iav.kade.fragment.main.MainView
 import com.iav.kade.model.Item
@@ -33,8 +30,13 @@ class LastMatchFragment : Fragment(), MainView {
     private lateinit var rv: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var presenter: LastMatchPresenter
+    private lateinit var presenterSearchMatch: SearchLastPresenter
     private var idTeam = "4328"
     var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga")
+
+
+    private lateinit var searchView: SearchView
+    var query = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_last_match, container, false)
@@ -42,6 +44,7 @@ class LastMatchFragment : Fragment(), MainView {
         progressBar = view.findViewById(R.id.progress_circular)
         spinner = view.findViewById<Spinner>(R.id.spinner)
         spinnerData()
+        setHasOptionsMenu(true)
         return view
     }
 
@@ -81,6 +84,7 @@ class LastMatchFragment : Fragment(), MainView {
 
         mAdapter = LastMatchAdapter(activity, items)
         presenter = LastMatchPresenter(items, activity, rv, mAdapter)
+        presenterSearchMatch = SearchLastPresenter(items, activity, rv, mAdapter)
         presenter.getLastMatch(idTeam)
     }
 
@@ -90,6 +94,33 @@ class LastMatchFragment : Fragment(), MainView {
 
     override fun progessHide() {
         progress_circular.invisible()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+        menuInflater?.inflate(R.menu.menu_search, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+//        searchView.setIconifiedByDefault(false)
+//        searchView.isIconified = false
+        searchView.requestFocusFromTouch()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                if (text?.length!! > 3) {
+//                if (text != null) {
+                    presenterSearchMatch.eventLastSearch(text)
+                    mAdapter.notifyDataSetChanged()
+                }
+                else{
+                    loadData()
+                }
+//                }
+                return false
+            }
+        })
     }
 
 

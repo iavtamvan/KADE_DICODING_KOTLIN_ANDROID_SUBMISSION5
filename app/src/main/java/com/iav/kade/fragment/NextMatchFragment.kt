@@ -3,18 +3,15 @@ package com.iav.kade.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ProgressBar
-import android.widget.Spinner
+import android.view.*
+import android.widget.*
 import com.example.cia.footballschedule.utils.invisible
 import com.example.cia.footballschedule.utils.visible
 import com.iav.kade.R
 import com.iav.kade.adapter.NextMatchAdapter
+import com.iav.kade.find.SearchMatchPresenter
 import com.iav.kade.fragment.main.MainView
 import com.iav.kade.fragment.main.NextMatchPresenter
 import com.iav.kade.model.Item
@@ -31,10 +28,12 @@ class NextMatchFragment : Fragment(), MainView {
     lateinit var rv: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var presenter: NextMatchPresenter
+    private lateinit var presenterSearchMatch: SearchMatchPresenter
     private var idTeam = "4328"
     var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga")
 
-
+    private lateinit var searchView: SearchView
+    var query = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -42,6 +41,7 @@ class NextMatchFragment : Fragment(), MainView {
         rv = view.findViewById(R.id.rv)
         spinner = view.findViewById<Spinner>(R.id.spinner)
         spinnerData()
+        setHasOptionsMenu(true)
         return view
     }
 
@@ -81,6 +81,7 @@ class NextMatchFragment : Fragment(), MainView {
     fun loadData(){
         mAdapter = NextMatchAdapter(activity, items)
         presenter = NextMatchPresenter(items, activity, rv, mAdapter)
+        presenterSearchMatch = SearchMatchPresenter(items, activity, rv, mAdapter)
         presenter.getNextMatch(idTeam)
     }
 
@@ -92,4 +93,30 @@ class NextMatchFragment : Fragment(), MainView {
         progress_circular.invisible()
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+        menuInflater?.inflate(R.menu.menu_search, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+//        searchView.setIconifiedByDefault(false)
+//        searchView.isIconified = false
+        searchView.requestFocusFromTouch()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                if (text?.length!! > 2) {
+//                if (text != null) {
+                    presenterSearchMatch.eventMatchSearch(text)
+                    mAdapter.notifyDataSetChanged()
+                } else{
+                    loadData()
+                }
+//                }
+                return false
+            }
+        })
+    }
 }
