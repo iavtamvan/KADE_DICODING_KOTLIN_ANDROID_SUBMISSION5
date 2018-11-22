@@ -29,8 +29,10 @@ class NextMatchFragment : Fragment(), MainView {
     private lateinit var progressBar: ProgressBar
     private lateinit var presenter: NextMatchPresenter
     private lateinit var presenterSearchMatch: SearchMatchPresenter
+    private lateinit var progress_circular: ProgressBar
     private var idTeam = "4328"
-    var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga")
+    var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga", "English League Championship", "Scottish Premier League", "Italian Serie A"
+            , "French Ligue 1", "Mexican Primera League")
 
     private lateinit var searchView: SearchView
     var query = ""
@@ -40,6 +42,7 @@ class NextMatchFragment : Fragment(), MainView {
         val view:View = inflater.inflate(R.layout.fragment_next_match, container, false)
         rv = view.findViewById(R.id.rv)
         spinner = view.findViewById<Spinner>(R.id.spinner)
+        progress_circular = view.findViewById(R.id.progress_circular)
         spinnerData()
         setHasOptionsMenu(true)
         return view
@@ -70,6 +73,21 @@ class NextMatchFragment : Fragment(), MainView {
                 } else if (data.equals("Spanish La Liga")) {
                     idTeam = "4335"
                     loadData()
+                }else if (data.equals("English League Championship")) {
+                    idTeam = "4329"
+                    loadData()
+                }else if (data.equals("Scottish Premier League")) {
+                    idTeam = "4330"
+                    loadData()
+                }else if (data.equals("Italian Serie A")) {
+                    idTeam = "4332"
+                    loadData()
+                }else if (data.equals("French Ligue 1")) {
+                    idTeam = "4334"
+                    loadData()
+                }else if (data.equals("Mexican Primera League")) {
+                    idTeam = "4350"
+                    loadData()
                 }
             }
 
@@ -79,6 +97,7 @@ class NextMatchFragment : Fragment(), MainView {
 
 
     fun loadData(){
+        progress_circular.invisible()
         mAdapter = NextMatchAdapter(activity, items)
         presenter = NextMatchPresenter(items, activity, rv, mAdapter)
         presenterSearchMatch = SearchMatchPresenter(items, activity, rv, mAdapter)
@@ -103,10 +122,6 @@ class NextMatchFragment : Fragment(), MainView {
         searchView.requestFocusFromTouch()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(text: String?): Boolean {
                 if (text?.length!! > 2) {
 //                if (text != null) {
                     presenterSearchMatch.eventMatchSearch(text)
@@ -114,6 +129,11 @@ class NextMatchFragment : Fragment(), MainView {
                 } else{
                     loadData()
                 }
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+
 //                }
                 return false
             }

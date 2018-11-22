@@ -16,14 +16,17 @@ class HomeActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.last_match -> {
                 home(savedInstanceState = null)
+                supportActionBar?.setTitle("Match")
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.next_match -> {
+            R.id.team -> {
                 team(savedInstanceState = null)
+                supportActionBar?.setTitle("Team")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.fav -> {
                 fav(savedInstanceState = null)
+                supportActionBar?.setTitle("Favorite")
                 return@OnNavigationItemSelectedListener true
             }
         }

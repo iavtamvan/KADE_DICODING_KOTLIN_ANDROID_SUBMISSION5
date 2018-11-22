@@ -30,7 +30,6 @@ class FavoritePresenter(private var favorites: ArrayList<Favorite>,
                 recyclerView.adapter = adapter
 //                adapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(context, "Data kosong", Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -10,13 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <android.support.v7.widget.RecyclerView
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@id/rv">
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:src="@drawable/empty"
+            android:layout_margin="50dp"
+            android:id="@+id/iv_empty"/>
 
-        </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/div">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@id/rv">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
     </LinearLayout>
 
 

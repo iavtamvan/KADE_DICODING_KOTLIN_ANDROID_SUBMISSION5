@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_last_match.*
  * A simple [Fragment] subclass.
  *
  */
-class LastMatchFragment : Fragment(), MainView {
+class LastMatchFragment : Fragment() {
 
     private var items: ArrayList<Item> = arrayListOf()
     private lateinit var mAdapter: LastMatchAdapter
@@ -31,8 +31,10 @@ class LastMatchFragment : Fragment(), MainView {
     private lateinit var progressBar: ProgressBar
     private lateinit var presenter: LastMatchPresenter
     private lateinit var presenterSearchMatch: SearchLastPresenter
+    private lateinit var progress_circular: ProgressBar
     private var idTeam = "4328"
-    var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga")
+    var list_of_items = arrayOf("English Premier League", "German Bundesliga", "Spanish La Liga", "English League Championship", "Scottish Premier League", "Italian Serie A"
+    , "French Ligue 1", "Mexican Primera League")
 
 
     private lateinit var searchView: SearchView
@@ -43,6 +45,8 @@ class LastMatchFragment : Fragment(), MainView {
         rv = view.findViewById(R.id.rv)
         progressBar = view.findViewById(R.id.progress_circular)
         spinner = view.findViewById<Spinner>(R.id.spinner)
+        progress_circular = view.findViewById(R.id.progress_circular)
+        progress_circular.visible()
         spinnerData()
         setHasOptionsMenu(true)
         return view
@@ -73,6 +77,21 @@ class LastMatchFragment : Fragment(), MainView {
                 } else if (data.equals("Spanish La Liga")) {
                     idTeam = "4335"
                     loadData()
+                }else if (data.equals("English League Championship")) {
+                    idTeam = "4329"
+                    loadData()
+                }else if (data.equals("Scottish Premier League")) {
+                    idTeam = "4330"
+                    loadData()
+                }else if (data.equals("Italian Serie A")) {
+                    idTeam = "4332"
+                    loadData()
+                }else if (data.equals("French Ligue 1")) {
+                    idTeam = "4334"
+                    loadData()
+                }else if (data.equals("Mexican Primera League")) {
+                    idTeam = "4350"
+                    loadData()
                 }
             }
 
@@ -81,19 +100,11 @@ class LastMatchFragment : Fragment(), MainView {
     }
 
     fun loadData() {
-
+        progress_circular.invisible()
         mAdapter = LastMatchAdapter(activity, items)
         presenter = LastMatchPresenter(items, activity, rv, mAdapter)
         presenterSearchMatch = SearchLastPresenter(items, activity, rv, mAdapter)
         presenter.getLastMatch(idTeam)
-    }
-
-    override fun progressShow() {
-        progress_circular.visible()
-    }
-
-    override fun progessHide() {
-        progress_circular.invisible()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
@@ -105,10 +116,6 @@ class LastMatchFragment : Fragment(), MainView {
         searchView.requestFocusFromTouch()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(text: String?): Boolean {
                 if (text?.length!! > 3) {
 //                if (text != null) {
                     presenterSearchMatch.eventLastSearch(text)
@@ -117,6 +124,11 @@ class LastMatchFragment : Fragment(), MainView {
                 else{
                     loadData()
                 }
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+
 //                }
                 return false
             }

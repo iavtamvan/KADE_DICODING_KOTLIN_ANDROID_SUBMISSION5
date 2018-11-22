@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import com.iav.kade.R
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * A simple [Fragment] subclass.

@@ -17,14 +17,13 @@ import com.iav.kade.helper.databaseTeam
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.support.v4.onRefresh
-import org.jetbrains.anko.support.v4.toast
 
 /**
  * A simple [Fragment] subclass.
  *
  */
 class TeamFavoriteFragment : Fragment() {
-    private var favorites: ArrayList<TeamFavorit> = arrayListOf()
+    private var favoritesTeam: ArrayList<TeamFavorit> = arrayListOf()
     private lateinit var adapter: TeamFavoriteAdapter
     private lateinit var listFavorite : RecyclerView
     private lateinit var swipe : SwipeRefreshLayout
@@ -41,24 +40,32 @@ class TeamFavoriteFragment : Fragment() {
     private fun getFavorite(){
         swipe.onRefresh {
             swipe.isRefreshing = true
-            favorites.clear()
+            favoritesTeam.clear()
             getFavorite()
         }
         context?.databaseTeam?.use {
             swipe.isRefreshing = false
             val result = select(TeamFavorit.TABLE_TEAM)
             val favorite = result.parseList(classParser<TeamFavorit>())
-            favorites.clear()
-            favorites.addAll(favorite)
+            favoritesTeam.clear()
+            favoritesTeam.addAll(favorite)
             if (favorite.size != 0){
                 listFavorite.layoutManager = LinearLayoutManager(context)
-                adapter = TeamFavoriteAdapter(activity,favorites)
+                adapter = TeamFavoriteAdapter(activity,favoritesTeam)
                 listFavorite.adapter = adapter
                 adapter.notifyDataSetChanged()
             }else{
-                toast("data kosong")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getFavorite()
+        favoritesTeam.isEmpty()
+        favoritesTeam.clear()
+        adapter = TeamFavoriteAdapter(activity,favoritesTeam)
+        adapter.notifyDataSetChanged()
     }
 
 }

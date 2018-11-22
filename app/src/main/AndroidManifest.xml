@@ -23,11 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DetailFavActivity" />
-        <activity android:name=".activity.DetailTeamActivity" />
-        <activity android:name=".activity.DetailPlayerTeamActivity" />
-        <activity android:name=".activity.DetailTeamFavoriteActivity" />
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.DetailFavActivity"
+            android:label="Detail Favorite"/>
+        <activity android:name=".activity.DetailTeamActivity"
+            android:label="Detail Team"/>
+        <activity android:name=".activity.DetailPlayerTeamActivity"
+            android:label="Detail Player"/>
+        <activity android:name=".activity.DetailTeamFavoriteActivity"
+            android:label="Detail Team"/>
     </application>
 
 </manifest>

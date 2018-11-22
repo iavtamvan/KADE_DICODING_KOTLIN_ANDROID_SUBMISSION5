@@ -50,8 +50,8 @@ class DetailTeamFavoriteActivity : AppCompatActivity() {
         idTeam = list.get(posisi.toInt()).teamId.toString()
 
         posisi = intent.getStringExtra("posisi")
-        viewPager = findViewById<ViewPager>(R.id.view_pager_detail_favorit)
-        tabLayout = findViewById<TabLayout>(R.id.tab_layout_detail_favorite)
+        viewPager = findViewById<ViewPager>(R.id.view_pager)
+        tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         viewPagerAdapter = ViewPagerDetailTeamAdapter(supportFragmentManager,deskripsi,idTeam)
 
         this.viewPager.adapter= viewPagerAdapter

@@ -20,7 +20,7 @@ import org.jetbrains.anko.support.v4.onRefresh
  *
  */
 class MatchFavoriteFragment : Fragment() {
-    private var favorites: ArrayList<Favorite> = arrayListOf()
+    private var favoritesMatch: ArrayList<Favorite> = arrayListOf()
     private lateinit var adapter: FavoriteAdapter
     private lateinit var rv : RecyclerView
     private lateinit var swipe : SwipeRefreshLayout
@@ -39,11 +39,11 @@ class MatchFavoriteFragment : Fragment() {
     private fun getFavorite(){
         swipe.onRefresh {
             swipe.isRefreshing = true
-            favorites.clear()
+            favoritesMatch.clear()
             presenter.getDatabaseFavorite()
         }
-        adapter = FavoriteAdapter(activity,favorites)
-        presenter = FavoritePresenter(favorites, adapter, rv, activity, swipe)
+        adapter = FavoriteAdapter(activity,favoritesMatch)
+        presenter = FavoritePresenter(favoritesMatch, adapter, rv, activity, swipe)
         presenter.getDatabaseFavorite()
         adapter.notifyDataSetChanged()
     }
@@ -51,6 +51,8 @@ class MatchFavoriteFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getFavorite()
-        presenter.getDatabaseFavorite()
+        favoritesMatch.isEmpty()
+        adapter = FavoriteAdapter(activity,favoritesMatch)
+        adapter.notifyDataSetChanged()
     }
 }
